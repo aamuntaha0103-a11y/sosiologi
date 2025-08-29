@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SosioExplorer - Belajar Sosiologi Interaktif</title>
+    <style>
+        /* Variabel CSS untuk tema */
+        :root {
+            --primary: #3498db;
+            --secondary: #2ecc71;
+            --accent: #e74c3c;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --text: #333;
+            --shadow: 0 4px 6px rgba(0,0,0,0.1);
+            --transition: all 0.3s ease;
+        }
+        
+        /* Reset & Dasar */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f9f9f9;
+            color: var(--text);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header & Navigasi */
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 20px 0;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .logo h1 {
+            font-size: 1.8rem;
+        }
+        
+        .logo-icon {
+            font-size: 2rem;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 20px;
+        }
+        
+        nav a {
+            color: white;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            transition: var(--transition);
+            font-weight: 500;
+        }
+        
+        nav a:hover, nav a.active {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+        
+        /* Modul Beranda */
+        .hero {
+            text-align: center;
+            padding: 60px 20px;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect width="100" height="100" fill="%233498db" opacity="0.1"/><path d="M0 0L100 100" stroke="%233498db" stroke-width="2" opacity="0.2"/><path d="M100 0L0 100" stroke="%233498db" stroke-width="2" opacity="0.2"/></svg>');
+            background-color: white;
+        }
+        
+        .hero h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: var(--dark);
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto 30px;
+            color: var(--text);
+        }
+        
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 40px;
+        }
+        
+        .menu-card {
+            background: white;
+            border-radius: 10px;
+            padding: 25px;
+            text-align: center;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            cursor: pointer;
+        }
+        
+        .menu-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+        }
+        
+        .menu-icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            color: var(--primary);
+        }
+        
+        .menu-card h3 {
+            margin-bottom: 10px;
+            color: var(--dark);
+        }
+        
+        /* Modul Materi */
+        .module {
+            display: none;
+            padding: 40px 0;
+        }
+        
+        .module.active {
+            display: block;
+        }
+        
+        .module-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .module-header h2 {
+            font-size: 2rem;
+            color: var(--dark);
+            margin-bottom: 10px;
+        }
+        
+        .theme-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        
+        .theme-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+        
+        .theme-card-header {
+            background: var(--primary);
+            color: white;
+            padding: 15px 20px;
+            font-weight: 600;
+        }
+        
+        .theme-card-body {
+            padding: 20px;
+        }
+        
+        .theme-card-body p {
+            margin-bottom: 15px;
+        }
+        
+        .interactive-element {
+            background: var(--light);
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            cursor: pointer;
+        }
+        
+        .hidden-content {
+            display: none;
+            padding: 15px;
+            background: white;
+            border-radius: 8px;
+            margin-top: 10px;
+            border-left: 4px solid var(--secondary);
+        }
+        
+        /* Modul Quiz */
+        .quiz-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: var(--shadow);
+        }
+        
+        .question {
+            margin-bottom: 25px;
+        }
+        
+        .options {
+            display: grid;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .option {
+            padding: 12px 15px;
+            background: var(--light);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .option:hover {
+            background: #dfe6e9;
+        }
+        
+        .option.selected {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .feedback {
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+            display: none;
+        }
+        
+        .feedback.correct {
+            background: #d1f5ea;
+            border-left: 4px solid var(--secondary);
+        }
+        
+        .feedback.incorrect {
+            background: #ffebee;
+            border-left: 4px solid var(--accent);
+        }
+        
+        /* Modul Glosarium */
+        .glossary-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .search-box {
+            margin-bottom: 20px;
+            position: relative;
+        }
+        
+        .search-box input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+        
+        .term-list {
+            background: white;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+        
+        .term-item {
+            padding: 15px 20px;
+            border-bottom: 1px solid #eee;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .term-item:last-child {
+            border-bottom: none;
+        }
+        
+        .term-item:hover {
+            background: #f6f6f6;
+        }
+        
+        .term-definition {
+            padding: 15px;
+            background: white;
+            border-radius: 10px;
+            margin-top: 20px;
+            box-shadow: var(--shadow);
+            display: none;
+        }
+        
+        /* Modul Pencapaian */
+        .progress-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .progress-bar {
+            height: 20px;
+            background: #eee;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: var(--secondary);
+            border-radius: 10px;
+            width: 0%;
+            transition: width 1s ease;
+        }
+        
+        .badges-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+        }
+        
+        .badge {
+            text-align: center;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+        }
+        
+        .badge-icon {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            color: #ddd;
+        }
+        
+        .badge.earned .badge-icon {
+            color: var(--secondary);
+        }
+        
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 30px 0;
+            margin-top: 60px;
+        }
+        
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        /* Responsivitas */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .menu-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .footer-content {
+                flex-direction: column;
+                gap: 20px;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header & Navigasi -->
+    <header>
+        <div class="container header-content">
+            <div class="logo">
+                <span class="logo-icon">🌐</span>
+                <h1>SosioExplorer</h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#beranda" class="nav-link active" data-module="beranda">Beranda</a></li>
+                    <li><a href="#materi" class="nav-link" data-module="materi">Materi</a></li>
+                    <li><a href="#simulasi" class="nav-link" data-module="simulasi">Simulasi</a></li>
+                    <li><a href="#quiz" class="nav-link" data-module="quiz">Quiz</a></li>
+                    <li><a href="#glosarium" class="nav-link" data-module="glosarium">Glosarium</a></li>
+                    <li><a href="#pencapaian" class="nav-link" data-module="pencapaian">Pencapaian</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Modul Beranda -->
+    <section id="beranda" class="module active">
+        <div class="container">
+            <div class="hero">
+                <h2>Jelajahi Dunia Sosiologi dengan Cara Menyenangkan</h2>
+                <p>SosioExplorer adalah platform pembelajaran interaktif yang membantu kamu memahami konsep-konsep sosiologi melalui materi menarik, simulasi, dan quiz interaktif.</p>
+                
+                <div class="menu-grid">
+                    <div class="menu-card" data-module="materi">
+                        <div class="menu-icon">📚</div>
+                        <h3>Materi Interaktif</h3>
+                        <p>Pelajari konsep sosiologi dengan pendekatan interaktif</p>
+                    </div>
+                    
+                    <div class="menu-card" data-module="simulasi">
+                        <div class="menu-icon">🔄</div>
+                        <h3>Simulasi Kasus</h3>
+                        <p>Hadapi studi kasus nyata untuk menguji pemahamanmu</p>
+                    </div>
+                    
+                    <div class="menu-card" data-module="quiz">
+                        <div class="menu-icon">✏️</div>
+                        <h3>Quiz Pengetahuan</h3>
+                        <p>Uji pemahamanmu dengan quiz formatif</p>
+                    </div>
+                    
+                    <div class="menu-card" data-module="glosarium">
+                        <div class="menu-icon">📖</div>
+                        <h3>Glosarium</h3>
+                        <p>Temukan definisi istilah-istilah sosiologi</p>
+                    </div>
+                    
+                    <div class="menu-card" data-module="pencapaian">
+                        <div class="menu-icon">🏆</div>
+                        <h3>Pencapaian</h3>
+                        <p>Lacak progress belajar dan kumpulkan badge</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modul Materi Interaktif -->
+    <section id="materi" class="module">
+        <div class="container">
+            <div class="module-header">
+                <h2>Materi Interaktif Sosiologi</h2>
+                <p>Pilih tema untuk mempelajari konsep-konsep sosiologi secara interaktif</p>
+            </div>
+            
+            <div class="theme-cards">
+                <div class="theme-card">
+                    <div class="theme-card-header">Tema 1: Interaksi Sosial & Nilai</div>
+                    <div class="theme-card-body">
+                        <p>Interaksi sosial adalah fondasi dari semua hubungan sosial. Pelajari bagaimana individu dan kelompok saling mempengaruhi.</p>
+                        
+                        <div class="interactive-element" onclick="toggleContent('content1')">
+                            <strong>Click untuk melihat contoh →</strong>
+                        </div>
+                        <div id="content1" class="hidden-content">
+                            <p>Contoh interaksi sosial: Seorang guru menjelaskan materi kepada siswa, dan siswa merespons dengan bertanya atau menjawab pertanyaan. Ini adalah bentuk interaksi sosial timbal balik.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="theme-card">
+                    <div class="theme-card-header">Tema 2: Norma, Peran, Status Sosial</div>
+                    <div class="theme-card-body">
+                        <p>Norma sosial adalah aturan tidak tertulis yang mengatur perilaku dalam masyarakat. Setiap individu memiliki peran dan status yang berbeda.</p>
+                        
+                        <div class="interactive-element" onclick="toggleContent('content2')">
+                            <strong>Click untuk melihat contoh →</strong>
+                        </div>
+                        <div id="content2" class="hidden-content">
+                            <p>Contoh norma: Mengucapkan "terima kasih" ketika mendapat bantuan, mengantri dengan tertib, dan menghormati orang yang lebih tua.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="theme-card">
+                    <div class="theme-card-header">Tema 3: Dinamika Sosial & Perubahan Sosial</div>
+                    <div class="theme-card-body">
+                        <p>Masyarakat selalu mengalami perubahan seiring waktu. Pelajari faktor-faktor yang mendorong perubahan sosial dan bagaimana masyarakat beradaptasi.</p>
+                        
+                        <div class="interactive-element" onclick="toggleContent('content3')">
+                            <strong>Click untuk melihat contoh →</strong>
+                        </div>
+                        <div id="content3" class="hidden-content">
+                            <p>Contoh perubahan sosial: Perkembangan teknologi komunikasi yang mengubah cara orang berinteraksi, dari bertemu langsung menjadi menggunakan media sosial.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modul Simulasi Kasus -->
+    <section id="simulasi" class="module">
+        <div class="container">
+            <div class="module-header">
+                <h2>Simulasi Kasus Interaktif</h2>
+                <p>Hadapi situasi nyata dan lihat konsekuensi dari pilihan yang kamu buat</p>
+            </div>
+            
+            <div class="quiz-container">
+                <div class="question">
+                    <h3>Kasus 1: Konflik di Lingkungan Sekolah</h3>
+                    <p>Anda melihat beberapa siswa mem-bully teman sekelasnya. Sebagai ketua OSIS, apa yang akan Anda lakukan?</p>
+                    
+                    <div class="options">
+                        <div class="option" onclick="selectOption(this)">Langsung menegur para pelaku bully</div>
+                        <div class="option" onclick="selectOption(this)">Melaporkan kepada guru BK</div>
+                        <div class="option" onclick="selectOption(this)">Membicarakannya dengan teman-teman OSIS lainnya</div>
+                        <div class="option" onclick="selectOption(this)">Mengadakan seminar tentang bahaya bullying</div>
+                    </div>
+                    
+                    <div class="feedback correct">
+                        <strong>Respons Terbaik:</strong> Melaporkan kepada guru BK adalah pilihan tepat karena penanganan bullying membutuhkan pendekatan yang profesional dan sistematis.
+                    </div>
+                    
+                    <div class="feedback incorrect">
+                        <strong>Pertimbangan:</strong> Langsung menegur mungkin tidak selalu efektif dan bisa memperburuk situasi. Lebih baik melibatkan pihak yang berwenang.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modul Quiz -->
+    <section id="quiz" class="module">
+        <div class="container">
+            <div class="module-header">
+                <h2>Quiz Pengetahuan Sosiologi</h2>
+                <p>Uji pemahamanmu tentang konsep-konsep sosiologi dengan quiz interaktif ini</p>
+            </div>
+            
+            <div class="quiz-container">
+                <div class="question">
+                    <h3>Pertanyaan 1:</h3>
+                    <p>Apa yang dimaksud dengan interaksi sosial?</p>
+                    
+                    <div class="options">
+                        <div class="option" onclick="checkAnswer(this, false)">Proses pembentukan kelompok sosial</div>
+                        <div class="option" onclick="checkAnswer(this, true)">Hubungan timbal balik antara individu atau kelompok</div>
+                        <div class="option" onclick="checkAnswer(this, false)">Perubahan struktur masyarakat</div>
+                        <div class="option" onclick="checkAnswer(this, false)">Pembagian peran dalam masyarakat</div>
+                    </div>
+                    
+                    <div class="feedback correct">
+                        <strong>Benar!</strong> Interaksi sosial memang merupakan hubungan timbal balik antara individu atau kelompok.
+                    </div>
+                    
+                    <div class="feedback incorrect">
+                        <strong>Belum tepat.</strong> Interaksi sosial adalah hubungan timbal balik antara individu atau kelompok.
+                    </div>
+                </div>
+                
+                <div class="question">
+                    <h3>Pertanyaan 2:</h3>
+                    <p>Manakah yang termasuk contoh dari nilai sosial?</p>
+                    
+                    <div class="options">
+                        <div class="option" onclick="checkAnswer(this, false)">Lampu lalu lintas</div>
+                        <div class="option" onclick="checkAnswer(this, true)">Kejujuran</div>
+                        <div class="option" onclick="checkAnswer(this, false)">Seragam sekolah</div>
+                        <div class="option" onclick="checkAnswer(this, false)">Gedung perkantoran</div>
+                    </div>
+                    
+                    <div class="feedback correct">
+                        <strong>Benar!</strong> Kejujuran adalah contoh nilai sosial yang dianggap penting dalam masyarakat.
+                    </div>
+                    
+                    <div class="feedback incorrect">
+                        <strong>Belum tepat.</strong> Nilai sosial adalah konsep abstrak tentang apa yang dianggap baik dan penting dalam masyarakat, seperti kejujuran, keadilan, dan tanggung jawab.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modul Glosarium -->
+    <section id="glosarium" class="module">
+        <div class="container">
+            <div class="module-header">
+                <h2>Glosarium Istilah Sosiologi</h2>
+                <p>Temukan definisi dari istilah-istilah penting dalam sosiologi</p>
+            </div>
+            
+            <div class="glossary-container">
+                <div class="search-box">
+                    <input type="text" placeholder="Cari istilah..." onkeyup="searchTerm()">
+                </div>
+                
+                <div class="term-list">
+                    <div class="term-item" onclick="showDefinition('def1')">
+                        <strong>Interaksi Sosial</strong>
+                    </div>
+                    <div class="term-item" onclick="showDefinition('def2')">
+                        <strong>Nilai Sosial</strong>
+                    </div>
+                    <div class="term-item" onclick="showDefinition('def3')">
+                        <strong>Norma Sosial</strong>
+                    </div>
+                    <div class="term-item" onclick="showDefinition('def4')">
+                        <strong>Status Sosial</strong>
+                    </div>
+                    <div class="term-item" onclick="showDefinition('def5')">
+                        <strong>Peran Sosial</strong>
+                    </div>
+                    <div class="term-item" onclick="showDefinition('def6')">
+                        <strong>Perubahan Sosial</strong>
+                    </div>
+                </div>
+                
+                <div id="def1" class="term-definition">
+                    <h3>Interaksi Sosial</h3>
+                    <p>Hubungan timbal balik antara individu dengan individu, individu dengan kelompok, atau kelompok dengan kelompok melalui proses saling mempengaruhi.</p>
+                </div>
+                
+                <div id="def2" class="term-definition">
+                    <h3>Nilai Sosial</h3>
+                    <p>Konsep abstrak tentang apa yang dianggap baik, penting, dan diinginkan dalam suatu masyarakat, yang berfungsi sebagai pedoman perilaku.</p>
+                </div>
+                
+                <div id="def3" class="term-definition">
+                    <h3>Norma Sosial</h3>
+                    <p>Aturan-aturan tidak tertulis yang mengatur perilaku anggota masyarakat dan memiliki sanksi tertentu jika dilanggar.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modul Pencapaian -->
+    <section id="pencapaian" class="module">
+        <div class="container">
+            <div class="module-header">
+                <h2>Pencapaian dan Progress Belajar</h2>
+                <p>Lacak perkembangan belajarmu dan kumpulkan badge pencapaian</p>
+            </div>
+            
+            <div class="progress-container">
+                <h3>Progress Belajar</h3>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+                
+                <h3>Badge Pencapaian</h3>
+                <div class="badges-container">
+                    <div class="badge earned">
+                        <div class="badge-icon">📚</div>
+                        <h4>Pembaca Aktif</h4>
+                        <p>Menyelesaikan modul materi</p>
+                    </div>
+                    
+                    <div class="badge">
+                        <div class="badge-icon">🧠</div>
+                        <h4>Ahli Sosiologi</h4>
+                        <p>Menyelesaikan semua quiz</p>
+                    </div>
+                    
+                    <div class="badge">
+                        <div class="badge-icon">🔍</div>
+                        <h4>Peneliti Handal</h4>
+                        <p>Menyelesaikan studi kasus</p>
+                    </div>
+                    
+                    <div class="badge earned">
+                        <div class="badge-icon">📖</div>
+                        <h4>Pencari Ilmu</h4>
+                        <p>Membuka glosarium</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container footer-content">
+            <p>© 2023 SosioExplorer - Platform Pembelajaran Sosiologi Interaktif</p>
+            <p>Dirancang untuk membantu siswa memahami konsep sosiologi dengan mudah</p>
+        </div>
+    </footer>
+
+    <script>
+        // Fungsi navigasi antar modul
+        document.querySelectorAll('.nav-link, .menu-card').forEach(item => {
+            item.addEventListener('click', function() {
+                const moduleId = this.getAttribute('data-module');
+                
+                // Sembunyikan semua modul
+                document.querySelectorAll('.module').forEach(mod => {
+                    mod.classList.remove('active');
+                });
+                
+                // Tampilkan modul yang dipilih
+                document.getElementById(moduleId).classList.add('active');
+                
+                // Update navigasi aktif
+                document.querySelectorAll('.nav-link').forEach(link => {
+                    link.classList.remove('active');
+                });
+                
+                // Temukan link navigasi yang sesuai dan tandai sebagai aktif
+                document.querySelector(`.nav-link[data-module="${moduleId}"]`).classList.add('active');
+                
+                // Scroll ke atas
+                window.scrollTo(0, 0);
+            });
+        });
+        
+        // Fungsi untuk konten interaktif materi
+        function toggleContent(contentId) {
+            const content = document.getElementById(contentId);
+            if (content.style.display === 'block') {
+                content.style.display = 'none';
+            } else {
+                content.style.display = 'block';
+            }
+        }
+        
+        // Fungsi untuk simulasi kasus
+        function selectOption(option) {
+            // Hapus seleksi sebelumnya
+            option.parentElement.querySelectorAll('.option').forEach(opt => {
+                opt.classList.remove('selected');
+            });
+            
+            // Tandai opsi yang dipilih
+            option.classList.add('selected');
+            
+            // Tampilkan feedback
+            const feedbacks = option.closest('.question').querySelectorAll('.feedback');
+            
+            // Sembunyikan semua feedback terlebih dahulu
+            feedbacks.forEach(fb => {
+                fb.style.display = 'none';
+            });
+            
+            // Tampilkan feedback yang sesuai
+            if (option.textContent.includes('Melaporkan kepada guru BK')) {
+                feedbacks[0].style.display = 'block';
+            } else {
+                feedbacks[1].style.display = 'block';
+            }
+        }
+        
+        // Fungsi untuk quiz
+        function checkAnswer(option, isCorrect) {
+            // Hapus seleksi sebelumnya
+            option.parentElement.querySelectorAll('.option').forEach(opt => {
+                opt.classList.remove('selected');
+            });
+            
+            // Tandai opsi yang dipilih
+            option.classList.add('selected');
+            
+            // Tampilkan feedback
+            const feedbacks = option.closest('.question').querySelectorAll('.feedback');
+            
+            // Sembunyikan semua feedback terlebih dahulu
+            feedbacks.forEach(fb => {
+                fb.style.display = 'none';
+            });
+            
+            // Tampilkan feedback yang sesuai
+            if (isCorrect) {
+                feedbacks[0].style.display = 'block';
+            } else {
+                feedbacks[1].style.display = 'block';
+            }
+        }
+        
+        // Fungsi untuk glosarium
+        function showDefinition(definitionId) {
+            // Sembunyikan semua definisi
+            document.querySelectorAll('.term-definition').forEach(def => {
+                def.style.display = 'none';
+            });
+            
+            // Tampilkan definisi yang dipilih
+            document.getElementById(definitionId).style.display = 'block';
+        }
+        
+        function searchTerm() {
+            const input = document.querySelector('.search-box input');
+            const filter = input.value.toUpperCase();
+            const terms = document.querySelectorAll('.term-item');
+            
+            terms.forEach(term => {
+                const text = term.textContent || term.innerText;
+                if (text.toUpperCase().indexOf(filter) > -1) {
+                    term.style.display = '';
+                } else {
+                    term.style.display = 'none';
+                }
+            });
+        }
+        
+        // Inisialisasi progress bar
+        document.addEventListener('DOMContentLoaded', function() {
+            const progressFill = document.getElementById('progressFill');
+            progressFill.style.width = '40%'; // Simulasi progress 40%
+        });
+    </script>
+</body>
+</html>
